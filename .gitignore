@@ -1,0 +1,24 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Java and Maven build output
+**/target/
+**/build/
+out/
+
+# Logs and crash dumps
+*.log
+hs_err_pid*
+replay_pid*
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
