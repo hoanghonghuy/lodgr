@@ -2,11 +2,26 @@
 .idea/
 *.iml
 .vscode/
+.vs/
+
+# Local AI working files
+.local/
 
 # Java and Maven build output
 **/target/
 **/build/
 out/
+
+# .NET build output
+**/bin/
+**/obj/
+
+# .NET user-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
 
 # Logs and crash dumps
 *.log
