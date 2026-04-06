@@ -1,10 +1,20 @@
 using Lodgr.Api.Data;
+using Lodgr.Api.Features.Buildings;
+using Lodgr.Api.Features.Contracts;
+using Lodgr.Api.Features.Rooms;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+builder.Services.AddProblemDetails();
 
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
@@ -15,6 +25,12 @@ var connectionString =
     + $"Password={builder.Configuration["POSTGRES_PASSWORD"] ?? "change_me"}";
 
 builder.Services.AddDbContext<LodgrDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
+builder.Services.AddScoped<IBuildingService, BuildingService>();
+builder.Services.AddScoped<IContractRepository, ContractRepository>();
+builder.Services.AddScoped<IContractService, ContractService>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 
 var app = builder.Build();
 
@@ -25,6 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 
 app.MapGet("/health", () => Results.Ok(new { status = "ok", service = "lodgr-api" }))
@@ -41,5 +58,7 @@ app.MapGet("/health/db", async (LodgrDbContext db, CancellationToken cancellatio
             title: "Database unavailable");
 })
 .WithName("DatabaseHealthCheck");
+
+app.MapControllers();
 
 app.Run();
