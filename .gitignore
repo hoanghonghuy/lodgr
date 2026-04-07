@@ -11,6 +11,16 @@
 **/target/
 **/build/
 out/
+*.class
+
+# Maven wrapper local/runtime artifacts
+**/.mvn/wrapper/maven-wrapper.jar
+**/.mvn/timing.properties
+
+# Java workspace metadata
+.classpath
+.project
+.factorypath
 
 # .NET build output
 **/bin/

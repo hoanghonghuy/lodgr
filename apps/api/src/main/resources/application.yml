@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:lodgr}
+    username: ${POSTGRES_USER:lodgr_user}
+    password: ${POSTGRES_PASSWORD:change_me}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        '[format_sql]': true
+        jdbc:
+          '[time_zone]': UTC
+  jackson:
+    default-property-inclusion: non_null
+
+springdoc:
+  swagger-ui:
+    path: /swagger
