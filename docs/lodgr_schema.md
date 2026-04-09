@@ -38,34 +38,10 @@ users
 ## Danh mục địa chỉ (data tĩnh)
 
 ### 1. provinces
-| Field | Kiểu | Ghi chú |
-|---|---|---|
-| code | VARCHAR(20) PK | Mã tỉnh/thành |
-| name | VARCHAR(100) NOT NULL | Tên ngắn |
-| name_en | VARCHAR(100) | Tên tiếng Anh |
-| full_name | VARCHAR(150) NOT NULL | Tên đầy đủ |
-| administrative_unit | VARCHAR(50) | Loại đơn vị hành chính |
-| created_at | TIMESTAMP NOT NULL DEFAULT NOW() | |
 
 ### 2. districts
-| Field | Kiểu | Ghi chú |
-|---|---|---|
-| code | VARCHAR(20) PK | Mã quận/huyện |
-| province_code | VARCHAR(20) NOT NULL FK -> provinces | |
-| name | VARCHAR(100) NOT NULL | |
-| full_name | VARCHAR(150) NOT NULL | |
-| administrative_unit | VARCHAR(50) | |
-| created_at | TIMESTAMP NOT NULL DEFAULT NOW() | |
 
 ### 3. wards
-| Field | Kiểu | Ghi chú |
-|---|---|---|
-| code | VARCHAR(20) PK | Mã phường/xã |
-| district_code | VARCHAR(20) NOT NULL FK -> districts | |
-| name | VARCHAR(100) NOT NULL | |
-| full_name | VARCHAR(150) NOT NULL | |
-| administrative_unit | VARCHAR(50) | |
-| created_at | TIMESTAMP NOT NULL DEFAULT NOW() | |
 
 ---
 
