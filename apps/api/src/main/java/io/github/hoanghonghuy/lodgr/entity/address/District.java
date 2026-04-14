@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 public class District {
     @Id
-    @Column(name = "code", length = 10)
+    @Column(name = "code", length = 10, nullable = false)
     private String code;
 
     @Column(name = "code_name", nullable = false, length = 50)

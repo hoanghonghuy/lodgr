@@ -14,6 +14,8 @@ import io.github.hoanghonghuy.lodgr.features.building.validator.BuildingReferenc
 import io.github.hoanghonghuy.lodgr.pagination.PagedResult;
 import io.github.hoanghonghuy.lodgr.pagination.PagingUtils;
 import jakarta.transaction.Transactional;
+import lombok.NonNull;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -66,7 +68,7 @@ public class BuildingService {
         return PagedResult.create(responses, normalizedPageNumber, normalizedPageSize, page.getTotalElements());
     }
 
-    public BuildingResponse getById(Long buildingId, boolean includeDeleted) {
+    public BuildingResponse getById(@NonNull Long buildingId, boolean includeDeleted) {
         Building building = buildingRepository.findById(buildingId)
                 .orElseThrow(() -> new BuildingNotFoundException(buildingId));
 
@@ -74,7 +76,8 @@ public class BuildingService {
             throw new BuildingNotFoundException(buildingId);
         }
 
-        Ward ward = wardRepository.findById(building.getWardCode()).orElse(null);
+        String wardCode = Objects.requireNonNull(building.getWardCode(), "Building's wardCode should not be null");
+        Ward ward = wardRepository.findById(wardCode).orElse(null);
         return BuildingMapper.toResponse(building, ward);
     }
 
@@ -92,12 +95,13 @@ public class BuildingService {
         building.setIsDeleted(false);
 
         Building saved = buildingRepository.save(building);
-        Ward ward = wardRepository.findById(saved.getWardCode()).orElse(null);
+        String wardCode = Objects.requireNonNull(saved.getWardCode(), "Saved building's wardCode should not be null");
+        Ward ward = wardRepository.findById(wardCode).orElse(null);
         return BuildingMapper.toResponse(saved, ward);
     }
 
     @Transactional
-    public BuildingResponse update(Long buildingId, UpdateBuildingRequest request) {
+    public BuildingResponse update(@NonNull Long buildingId, UpdateBuildingRequest request) {
         Building building = buildingRepository.findById(buildingId)
                 .orElseThrow(() -> new BuildingNotFoundException(buildingId));
 
@@ -112,12 +116,13 @@ public class BuildingService {
         building.setUpdatedAt(LocalDateTime.now());
 
         Building saved = buildingRepository.save(building);
-        Ward ward = wardRepository.findById(saved.getWardCode()).orElse(null);
+        String wardCode = Objects.requireNonNull(saved.getWardCode(), "Saved building's wardCode should not be null");
+        Ward ward = wardRepository.findById(wardCode).orElse(null);
         return BuildingMapper.toResponse(saved, ward);
     }
 
     @Transactional
-    public void softDelete(Long buildingId) {
+    public void softDelete(@NonNull Long buildingId) {
         Building building = buildingRepository.findById(buildingId)
                 .orElseThrow(() -> new BuildingNotFoundException(buildingId));
 

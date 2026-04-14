@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class Ward {
     @Id
-    @Column(name = "code", length = 10)
+    @Column(name = "code", length = 10, nullable = false)
     private String code;
 
     @Column(name = "code_name", length = 50)

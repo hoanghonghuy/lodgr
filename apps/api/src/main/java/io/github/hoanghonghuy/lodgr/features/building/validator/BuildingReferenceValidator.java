@@ -4,6 +4,9 @@ import io.github.hoanghonghuy.lodgr.entity.User;
 import io.github.hoanghonghuy.lodgr.features.building.repository.BuildingOwnerRepository;
 import io.github.hoanghonghuy.lodgr.features.building.repository.WardRepository;
 import io.github.hoanghonghuy.lodgr.features.building.service.InvalidBuildingReferenceException;
+
+import java.util.Objects;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,14 +22,16 @@ public class BuildingReferenceValidator {
     }
 
     public User requireOwner(Long ownerId) {
-        return ownerRepository.findById(ownerId)
+        Long id = Objects.requireNonNull(ownerId, "ownerId should not be null");
+        return ownerRepository.findById(id)
                 .orElseThrow(() -> new InvalidBuildingReferenceException(
-                        "Owner with id " + ownerId + " does not exist"));
+                        "Owner with id " + id + " does not exist"));
     }
 
     public void requireWard(String wardCode) {
-        if (!wardRepository.existsById(wardCode)) {
-            throw new InvalidBuildingReferenceException("Ward with code " + wardCode + " does not exist");
+        String code = Objects.requireNonNull(wardCode, "wardCode should not be null");
+        if (!wardRepository.existsById(code)) {
+            throw new InvalidBuildingReferenceException("Ward with code " + code + " does not exist");
         }
     }
 }
